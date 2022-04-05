@@ -33,6 +33,10 @@
       <ion-label position="stacked" color="primary">Available scanners:</ion-label>
       <ion-textarea rows="7" [value]="availableScannersText"></ion-textarea>
     </ion-item>
+    <ion-item no-lines [ngClass]="{'hide' : uiHidePlugin}">
+      <ion-label position="stacked" color="primary">Enable/Disable Plugin</ion-label>
+      <ion-toggle rows="1" [(ngModel)]="pluginEnabled" (ionChange)="pluginEnabledChanged()"></ion-toggle>      
+    </ion-item>
     <ion-item no-lines [ngClass]="{'hide' : uiHideSelectScanner}">
       <ion-label position="stacked" color="primary">Selected Scanner</ion-label>
       <ion-select [(ngModel)]="selectedScanner" (ionChange)="scannerSelected()" okText="Select" cancelText="Dismiss">

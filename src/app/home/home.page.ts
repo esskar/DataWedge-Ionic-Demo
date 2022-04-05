@@ -26,6 +26,7 @@ export class HomePage {
   private ean13Decoder = true;  //  Model for decoder
   private code39Decoder = true; //  Model for decoder
   private code128Decoder = true;//  Model for decoder
+  private pluginEnabled = true;
   private dataWedgeVersion = "Pre 6.3. Please create & configure profile manually.  See the ReadMe for more details.";
   private availableScannersText = "Requires Datawedge 6.3+"
   private activeProfileText = "Requires Datawedge 6.3+";
@@ -34,6 +35,7 @@ export class HomePage {
   private uiDatawedgeVersionAttention = true;
   private uiHideSelectScanner = true;
   private uiHideShowAvailableScanners = false;
+  private uiHidePlugin= false;
   private uiHideCommandMessages = true;
   private uiHideFloatingActionButton = true;
 
@@ -135,7 +137,7 @@ export class HomePage {
         //  The ability to switch to a new scanner is only available from DW 6.5 onwards
         //  Reconfigure UI so the user can choose the desired scanner
         this.uiHideSelectScanner = false;
-        this.uiHideShowAvailableScanners = true;
+        this.uiHideShowAvailableScanners = true;        
 
         //  6.5 also introduced messages which are received from the API to indicate success / failure
         this.uiHideCommandMessages = false;
@@ -282,6 +284,16 @@ export class HomePage {
   //  Function to handle the floating action button onUp.  Cancel any soft scan in progress.
   public fabUp() {
     this.barcodeProvider.sendCommand("com.symbol.datawedge.api.SOFT_SCAN_TRIGGER", "STOP_SCANNING");
+  }
+
+  public async pluginEnabledChanged() {
+    console.log("Plugin enabled is: " + this.pluginEnabled);
+
+    if (this.pluginEnabled) {
+      this.barcodeProvider.sendCommand("com.symbol.datawedge.api.SCANNER_INPUT_PLUGIN", "ENABLE_PLUGIN");
+    } else {
+      this.barcodeProvider.sendCommand("com.symbol.datawedge.api.SCANNER_INPUT_PLUGIN", "DISABLE_PLUGIN");
+    }
   }
 
 }
